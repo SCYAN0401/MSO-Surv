@@ -11,11 +11,11 @@ from sklearn.preprocessing import OrdinalEncoder
 
 ###
 
-with open('D:/Python/MSO-Surv/model/model.pkl', 'rb') as f:
+with open('model/model.pkl', 'rb') as f:
     rsf = pickle.load(f)
-with open('D:/Python/MSO-Surv/model/imputer.pkl', 'rb') as f:
+with open('model/imputer.pkl', 'rb') as f:
     imputer = pickle.load(f)
-with open('D:/Python/MSO-Surv/model/scaler.pkl', 'rb') as f:
+with open('model/scaler.pkl', 'rb') as f:
     scaler = pickle.load(f)
 
 ###
