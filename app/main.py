@@ -149,11 +149,11 @@ def main():
         times = np.arange(0, 360)
         best_cop = 5.827909050252443
         
-        fig = plot_personalized_predictions(rsf, 
-                                            X_test_final, 
-                                            times, 
-                                            best_cop)
-        
+        ax = plot_personalized_predictions(rsf, 
+                                           X_test_final, 
+                                           times, 
+                                           best_cop)
+        fig = ax.get_figure()
         st.pyplot(fig)
             
 if __name__=='__main__':
