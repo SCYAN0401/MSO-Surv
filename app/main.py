@@ -13,7 +13,6 @@ from sklearn.preprocessing import OrdinalEncoder
 ###
 
 rsf = pickle.load(open('model/model.pkl', 'rb'))
-# imputer = pickle.load(open('model/imputer.pkl', 'rb'))
 scaler = pickle.load(open('model/scaler.pkl', 'rb'))
 
 ###
@@ -27,8 +26,8 @@ def recode(Age, T_category, N_category, M_category, Stage, Extent, Grade, Tumor_
     Extent_ = {'CTO': 0,'DM/PE': 1}[Extent]
     Grade_ = {'D': 0,'PD/UD': 1}[Grade]
     Tumor_size_ = Tumor_size
-    Hysterectomy_ = 0 if Hysterectomy == 'No' else 1
-    Chemotherapy_ = 0 if Chemotherapy == 'No/Unknown' else 1
+    Hysterectomy_ = {'No': 0, 'Yes': 1}[Hysterectomy]
+    Chemotherapy_ = {'No/Unknown': 0, 'Yes': 1}[Chemotherapy]
     
     Surgery_BSO = True if Surgery == 'BSO' else False
     Surgery_No = True if Surgery == 'No' else False
@@ -117,13 +116,13 @@ def main():
                                    "Partial resection, such as cystectomy", 'No surgery performed'])
 
     Hysterectomy = st.radio("**Hysterectomy**",
-                            ['No','Yes'])
+                            ['No', 'Yes'])
 
     Chemotherapy = st.radio("**Chemotherapy**",
-                            ['No/Unknown','Yes'])
+                            ['No/Unknown', 'Yes'])
     
     Radiotherapy = st.radio("**Radiotherapy**",
-                            ['No/Unknown','RAI', 'EBRT'])
+                            ['No/Unknown', 'RAI', 'EBRT'])
 
     st.divider()
 
@@ -142,6 +141,7 @@ def main():
         X_test = recode(Age, T_category, N_category, M_category, Stage, Extent, Grade, Tumor_size, Surgery, Hysterectomy, Chemotherapy, Radiotherapy)
         X_test_scale = scaler.transform(X_test)
         X_test_scale = pd.DataFrame(X_test_scale, columns = X_test.columns)             
+        
         X_test_final = X_test_scale[['Age', 'Extent', 'N category', 'Hysterectomy', 'Surgery_PR', 'Chemotherapy', 'M category', 
                                      'Radiotherapy_RAI', 'Surgery_USO', 'Tumor size', 'Radiotherapy_EBRT', 'Grade', 'AJCC stage']]
 
