@@ -21,7 +21,7 @@ scaler = pickle.load(open('model/scaler.pkl', 'rb'))
 def onehot_encoder(X, va_name, feat_name, new_col_name):
     X_oh_ = []
     for feat in feat_name:
-        if X.loc[0, 'Surgery'] == feat:
+        if X.loc[0, va_name] == feat:
             X_oh_.append(True)
         else:
             X_oh_.append(False)
