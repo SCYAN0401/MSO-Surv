@@ -17,7 +17,6 @@ rsf = pickle.load(open('model/model.pkl', 'rb'))
 scaler = pickle.load(open('model/scaler.pkl', 'rb'))
 
 ###
-['Age', 'Extent', 'N category', 'Hysterectomy', 'Surgery_PR', 'Chemotherapy', 'M category', 'Radiotherapy_RAI', 'Surgery_USO', 'Tumor size', 'Radiotherapy_EBRT', 'Grade', 'AJCC stage']
 
 def recode(Age, T_category, N_category, M_category, Stage, Extent, Grade, Tumor_size, Surgery, Hysterectomy, Chemotherapy, Radiotherapy):
     Age_ = Age
@@ -102,7 +101,7 @@ def main():
     
     Extent = st.radio("**Extent of tumor**",
                      ['CTO','DM/PE'],
-                     captions=['confined to ovary', 'distant metastasis/peritoneal extension'])
+                     captions=['Confined to ovary', 'Distant metastasis/Peritoneal extension'])
     
     Grade = st.radio("**Grade**",
                      ['D','PD/UD'],
