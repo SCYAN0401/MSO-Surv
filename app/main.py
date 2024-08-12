@@ -18,8 +18,15 @@ scaler = pickle.load(open('model/scaler.pkl', 'rb'))
 
 ###
 
-def onehot_encoder(X, va_name):
-    X_oh = pd.get_dummies(X[[va_name]], drop_first = False, dummy_na = False)
+def onehot_encoder(X, va_name, feat_name, new_col_name):
+    X_oh_ = []
+    for feat in feat_name:
+        if X.loc[0, 'Surgery'] == feat:
+            X_oh_.append(True)
+        else:
+            X_oh_.append(False)
+    X_oh = pd.DataFrame(X_oh_).transpose()
+    X_oh.columns = new_col_name    
     rest_names = [name for name in X.columns.tolist() if name != va_name]
     Xt = pd.concat([X[rest_names], X_oh], axis=1)
     return Xt
@@ -42,8 +49,8 @@ def ENCODER(X):
     X = ordinal_encoder(X, 'Hysterectomy', ['No','Yes'])
     X = ordinal_encoder(X, 'Chemotherapy', ['No/Unknown','Yes'])
     
-    X = onehot_encoder(X, 'Surgery')
-    X = onehot_encoder(X, 'Radiotherapy')
+    X = onehot_encoder(X, 'Surgery', ["USO", "BSO", "SOwO", "PR", 'No'], ['Surgery_USO', 'Surgery_BSO', 'Surgery_SOwO', 'Surgery_PR', 'Surgery_No'])
+    X = onehot_encoder(X, 'Radiotherapy', ['No/Unknown','RAI', 'EBRT'], ['Radiotherapy_No/Unknown','Radiotherapy_RAI', 'Radiotherapy_EBRT'])
     return X
 
 def preprocessor_test(X_test, encoder, scaler_):
