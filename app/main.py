@@ -13,7 +13,7 @@ from sklearn.preprocessing import OrdinalEncoder
 ###
 
 rsf = pickle.load(open('model/model.pkl', 'rb'))
-imputer = pickle.load(open('model/imputer.pkl', 'rb'))
+# imputer = pickle.load(open('model/imputer.pkl', 'rb'))
 scaler = pickle.load(open('model/scaler.pkl', 'rb'))
 
 ###
@@ -46,14 +46,14 @@ def ENCODER(X):
     X = onehot_encoder(X, 'Radiotherapy')
     return X
 
-def preprocessor_test(X_test, encoder, imputer_, scaler_):
+def preprocessor_test(X_test, encoder, scaler_):
     X_test_encode = encoder(X_test)
 
-    X_test_impute = imputer_.transform(X_test_encode)
-    X_test_impute = pd.DataFrame(X_test_impute, columns = X_test_encode.columns)
+    # X_test_impute = imputer_.transform(X_test_encode)
+    # X_test_impute = pd.DataFrame(X_test_impute, columns = X_test_encode.columns)
 
-    X_test_scale = scaler_.transform(X_test_impute)
-    X_test_scale = pd.DataFrame(X_test_scale, columns = X_test_impute.columns)
+    X_test_scale = scaler_.transform(X_test_encode)
+    X_test_scale = pd.DataFrame(X_test_scale, columns = X_test_encode.columns)
     
     return X_test_scale
 
@@ -137,7 +137,7 @@ def main():
     if "disabled" not in st.session_state:
         st.session_state['disabled'] = False
     
-    st.checkbox('**I understand MSO-Surv is solely for scientific research purposes**',
+    st.checkbox('**I understand MSO-Surv is solely for scientific research purposes.**',
                 key="disabled")
     
     if st.button("**Predict**",
@@ -147,7 +147,7 @@ def main():
         X_test = pd.DataFrame([Age, T_category, N_category, M_category, Stage, Extent, Grade, Tumor_size, Surgery, Hysterectomy, Chemotherapy, Radiotherapy]).transpose()
         X_test.columns = ['Age','T category','N category','M category','AJCC stage','Extent','Grade','Tumor size','Surgery','Hysterectomy','Chemotherapy','Radiotherapy']
         
-        X_test_final = preprocessor_test(X_test, ENCODER, imputer, scaler)
+        X_test_final = preprocessor_test(X_test, ENCODER, scaler)
         
         times = np.arange(0, 360)
         best_cop = 5.827909050252443
