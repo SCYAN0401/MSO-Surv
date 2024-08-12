@@ -11,12 +11,9 @@ from sklearn.preprocessing import OrdinalEncoder
 
 ###
 
-with open('model/model.pkl', 'rb') as f:
-    rsf = pickle.load(f)
-with open('model/imputer.pkl', 'rb') as f:
-    imputer = pickle.load(f)
-with open('model/scaler.pkl', 'rb') as f:
-    scaler = pickle.load(f)
+rsf = pickle.load(open('model/model.pkl', 'rb'))
+imputer = pickle.load(open('model/imputer.pkl', 'rb'))
+scaler = pickle.load(open('model/scaler.pkl', 'rb'))
 
 ###
 
