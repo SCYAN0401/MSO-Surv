@@ -25,7 +25,7 @@ def recode(Age, T_category, N_category, M_category, Stage, Extent, Grade, Tumor_
     N_category_ = {'N0': 0, 'N1': 1}[N_category]
     M_category_ = {'M0': 0, 'M1': 1}[M_category]
     Stage_ = {'I': 0, 'II': 1, 'III': 2, 'IV': 2}[Stage]
-    Extent_ = {'CTO': 0,'DM/PE': 1}[N_category]
+    Extent_ = {'CTO': 0,'DM/PE': 1}[Extent]
     Grade_ = {'D': 0,'PD/UD': 1}[Grade]
     Tumor_size_ = Tumor_size
     Surgery_USO = True if Surgery == 'USO' else False
