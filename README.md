@@ -1,2 +1,2 @@
 # MSO-Surv
-Individualized Survival Prediction and Risk Stratification Using Machine Learning for Patients with Malignant Struma Ovarii
+A RSF-based prediction model to estimate the survival probability and stratify the risk for patients with malignant struma ovarii (MSO). MSO-Surv was trained on 120 patients from Surveillance, Epidemiology, and End Results (SEER) database and validated with 194 patients from previous case reports. This prediction model has been developed and validated solely for scientific research purposes and has not been evaluated prospectively or approved for clinical use.
