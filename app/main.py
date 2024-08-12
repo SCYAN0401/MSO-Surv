@@ -48,10 +48,6 @@ def ENCODER(X):
 
 def preprocessor_test(X_test, encoder, scaler_):
     X_test_encode = encoder(X_test)
-
-    # X_test_impute = imputer_.transform(X_test_encode)
-    # X_test_impute = pd.DataFrame(X_test_impute, columns = X_test_encode.columns)
-
     X_test_scale = scaler_.transform(X_test_encode)
     X_test_scale = pd.DataFrame(X_test_scale, columns = X_test_encode.columns)
     
@@ -146,9 +142,12 @@ def main():
         
         X_test = pd.DataFrame([Age, T_category, N_category, M_category, Stage, Extent, Grade, Tumor_size, Surgery, Hysterectomy, Chemotherapy, Radiotherapy]).transpose()
         X_test.columns = ['Age','T category','N category','M category','AJCC stage','Extent','Grade','Tumor size','Surgery','Hysterectomy','Chemotherapy','Radiotherapy']
-        
-        X_test_final = preprocessor_test(X_test, ENCODER, scaler)
-        
+
+        X_test_encode = encoder(X_test)
+        X_test_scale = scaler.transform(X_test_encode)
+        X_test_scale = pd.DataFrame(X_test_scale, columns = X_test_encode.columns)             
+        X_test_final = X_test_scale
+
         times = np.arange(0, 360)
         best_cop = 5.827909050252443
         
