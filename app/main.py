@@ -143,7 +143,7 @@ def main():
         X_test = pd.DataFrame([Age, T_category, N_category, M_category, Stage, Extent, Grade, Tumor_size, Surgery, Hysterectomy, Chemotherapy, Radiotherapy]).transpose()
         X_test.columns = ['Age','T category','N category','M category','AJCC stage','Extent','Grade','Tumor size','Surgery','Hysterectomy','Chemotherapy','Radiotherapy']
 
-        X_test_encode = encoder(X_test)
+        X_test_encode = ENCODER(X_test)
         X_test_scale = scaler.transform(X_test_encode)
         X_test_scale = pd.DataFrame(X_test_scale, columns = X_test_encode.columns)             
         X_test_final = X_test_scale
