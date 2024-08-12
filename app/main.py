@@ -28,25 +28,28 @@ def recode(Age, T_category, N_category, M_category, Stage, Extent, Grade, Tumor_
     Extent_ = {'CTO': 0,'DM/PE': 1}[Extent]
     Grade_ = {'D': 0,'PD/UD': 1}[Grade]
     Tumor_size_ = Tumor_size
-    Surgery_USO = True if Surgery == 'USO' else False
-    Surgery_BSO = True if Surgery == 'BSO' else False
-    Surgery_SOwO = True if Surgery == 'SOwO' else False
-    Surgery_PR = True if Surgery == 'PR' else False
-    Surgery_No = True if Surgery == 'No' else False
     Hysterectomy_ = 0 if Hysterectomy == 'No' else 1
     Chemotherapy_ = 0 if Chemotherapy == 'No/Unknown' else 1
+    
+    Surgery_BSO = True if Surgery == 'BSO' else False
+    Surgery_No = True if Surgery == 'No' else False
+    Surgery_PR = True if Surgery == 'PR' else False
+    Surgery_SOwO = True if Surgery == 'SOwO' else False
+    Surgery_USO = True if Surgery == 'USO' else False
+    
+    Radiotherapy_EBRT = True if Radiotherapy == 'EBRT' else False
     Radiotherapy_NoUnknown = True if Radiotherapy == 'No/Unknown' else False
     Radiotherapy_RAI = True if Radiotherapy == 'RAI' else False
-    Radiotherapy_EBRT = True if Radiotherapy == 'EBRT' else False
+    
 
     X_test = pd.DataFrame([Age_, T_category_, N_category_, M_category_, Stage_, Extent_, Grade_, Tumor_size_, 
-                           Surgery_USO, Surgery_BSO, Surgery_SOwO, Surgery_PR, Surgery_No, 
                            Hysterectomy_, Chemotherapy_, 
-                           Radiotherapy_NoUnknown, Radiotherapy_RAI, Radiotherapy_EBRT]).transpose()
+                           Surgery_BSO, Surgery_No, Surgery_PR, Surgery_SOwO, Surgery_USO,                         
+                           Radiotherapy_EBRT, Radiotherapy_NoUnknown, Radiotherapy_RAI]).transpose()
     X_test.columns = ['Age','T category','N category','M category','AJCC stage','Extent','Grade','Tumor size',
-                      'Surgery_USO','Surgery_BSO','Surgery_SOwO','Surgery_PR','Surgery_No',
                       'Hysterectomy','Chemotherapy',
-                      'Radiotherapy_No/Unknown', 'Radiotherapy_RAI', 'Radiotherapy_EBRT']    
+                      'Surgery_BSO', 'Surgery_No', 'Surgery_PR', 'Surgery_SOwO', 'Surgery_USO',
+                      'Radiotherapy_EBRT', 'Radiotherapy_No/Unknown', 'Radiotherapy_RAI']    
     return X_test
 
 def plot_personalized_predictions(estimator, X, times, best_cop, ax = None):
