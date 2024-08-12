@@ -17,48 +17,37 @@ rsf = pickle.load(open('model/model.pkl', 'rb'))
 scaler = pickle.load(open('model/scaler.pkl', 'rb'))
 
 ###
+['Age', 'Extent', 'N category', 'Hysterectomy', 'Surgery_PR', 'Chemotherapy', 'M category', 'Radiotherapy_RAI', 'Surgery_USO', 'Tumor size', 'Radiotherapy_EBRT', 'Grade', 'AJCC stage']
 
-def onehot_encoder(X, va_name, feat_name, new_col_name):
-    X_oh_ = []
-    for feat in feat_name:
-        if X.loc[0, va_name] == feat:
-            X_oh_.append(True)
-        else:
-            X_oh_.append(False)
-    X_oh = pd.DataFrame(X_oh_).transpose()
-    X_oh.columns = new_col_name    
-    rest_names = [name for name in X.columns.tolist() if name != va_name]
-    Xt = pd.concat([X[rest_names], X_oh], axis=1)
-    return Xt
+def recode(Age, T_category, N_category, M_category, Stage, Extent, Grade, Tumor_size, Surgery, Hysterectomy, Chemotherapy, Radiotherapy):
+    Age_ = Age
+    T_category_ = {'T1': 0, 'T2': 1, 'T3': 2}[T_category]
+    N_category_ = {'N0': 0, 'N1': 1}[N_category]
+    M_category_ = {'M0': 0, 'M1': 1}[M_category]
+    Stage_ = {'I': 0, 'II': 1, 'III': 2, 'IV': 2}[Stage]
+    Extent_ = {'CTO': 0,'DM/PE': 1}[N_category]
+    Grade_ = {'D': 0,'PD/UD': 1}[Grade]
+    Tumor_size_ = Tumor_size
+    Surgery_USO = True if Surgery == 'USO' else False
+    Surgery_BSO = True if Surgery == 'BSO' else False
+    Surgery_SOwO = True if Surgery == 'SOwO' else False
+    Surgery_PR = True if Surgery == 'PR' else False
+    Surgery_No = True if Surgery == 'No' else False
+    Hysterectomy_ = 0 if Hysterectomy == 'No' else 1
+    Chemotherapy_ = 0 if Chemotherapy == 'No/Unknown' else 1
+    Radiotherapy_NoUnknown = True if Radiotherapy == 'No/Unknown' else False
+    Radiotherapy_RAI = True if Radiotherapy == 'RAI' else False
+    Radiotherapy_EBRT = True if Radiotherapy == 'EBRT' else False
 
-def ordinal_encoder(X, va_name, cat_name_list):
-    va_str = X.loc[:, va_name].astype(object).values[:, np.newaxis]
-    va_num = OrdinalEncoder(categories=[cat_name_list], handle_unknown = 'use_encoded_value',  unknown_value = np.nan).fit_transform(va_str)
-    Xt = X.drop(va_name, axis=1)
-    Xt.loc[:, va_name] = va_num
-    Xt = Xt.loc[:, X.columns.tolist()]
-    return Xt
-
-def ENCODER(X):
-    X = ordinal_encoder(X, 'T category', ['T1','T2','T3'])
-    X = ordinal_encoder(X, 'N category', ['N0','N1'])
-    X = ordinal_encoder(X, 'M category', ['M0','M1'])
-    X = ordinal_encoder(X, 'AJCC stage', ['I','II','III','IV'])
-    X = ordinal_encoder(X, 'Extent', ['CTO','DM/PE'])
-    X = ordinal_encoder(X, 'Grade', ['G1','>G1'])
-    X = ordinal_encoder(X, 'Hysterectomy', ['No','Yes'])
-    X = ordinal_encoder(X, 'Chemotherapy', ['No/Unknown','Yes'])
-    
-    X = onehot_encoder(X, 'Surgery', ["USO", "BSO", "SOwO", "PR", 'No'], ['Surgery_USO', 'Surgery_BSO', 'Surgery_SOwO', 'Surgery_PR', 'Surgery_No'])
-    X = onehot_encoder(X, 'Radiotherapy', ['No/Unknown','RAI', 'EBRT'], ['Radiotherapy_No/Unknown','Radiotherapy_RAI', 'Radiotherapy_EBRT'])
-    return X
-
-def preprocessor_test(X_test, encoder, scaler_):
-    X_test_encode = encoder(X_test)
-    X_test_scale = scaler_.transform(X_test_encode)
-    X_test_scale = pd.DataFrame(X_test_scale, columns = X_test_encode.columns)
-    
-    return X_test_scale
+    X_test = pd.DataFrame([Age_, T_category_, N_category_, M_category_, Stage_, Extent_, Grade_, Tumor_size_, 
+                           Surgery_USO, Surgery_BSO, Surgery_SOwO, Surgery_PR, Surgery_No, 
+                           Hysterectomy_, Chemotherapy_, 
+                           Radiotherapy_NoUnknown, Radiotherapy_RAI, Radiotherapy_EBRT]).transpose()
+    X_test.columns = ['Age','T category','N category','M category','AJCC stage','Extent','Grade','Tumor size',
+                      'Surgery_USO','Surgery_BSO','Surgery_SOwO','Surgery_PR','Surgery_No',
+                      'Hysterectomy','Chemotherapy',
+                      'Radiotherapy_No/Unknown', 'Radiotherapy_RAI', 'Radiotherapy_EBRT']    
+    return X_test
 
 def plot_personalized_predictions(estimator, X, times, best_cop, ax = None):
     rs = estimator.predict(X)
@@ -113,7 +102,7 @@ def main():
                      captions=['confined to ovary', 'distant metastasis/peritoneal extension'])
     
     Grade = st.radio("**Grade**",
-                     ['G1','>G1'],
+                     ['D','PD/UD'],
                      captions=['Differentiated', 'Poorly differentiated/Undifferentiated'])
        
     Tumor_size = st.slider('**Tumor size (mm)**', 
@@ -122,7 +111,8 @@ def main():
 
     Surgery = st.radio("**Surgery for the primary tumor**",
                        ["USO", "BSO", "SOwO", "PR", 'No'],
-                       captions = ["Unilateral salpingo-oophorectomy", "Bilateral salpingo-oophorectomy", "Salpingo-oophorectomy with omentectomy", "Partial resection, such as cystectomy", 'No surgery performed'])
+                       captions = ["Unilateral salpingo-oophorectomy", "Bilateral salpingo-oophorectomy", "Salpingo-oophorectomy with omentectomy", 
+                                   "Partial resection, such as cystectomy", 'No surgery performed'])
 
     Hysterectomy = st.radio("**Hysterectomy**",
                             ['No','Yes'])
@@ -147,13 +137,11 @@ def main():
                  disabled=operator.not_(st.session_state.disabled)):
         
         
-        X_test = pd.DataFrame([Age, T_category, N_category, M_category, Stage, Extent, Grade, Tumor_size, Surgery, Hysterectomy, Chemotherapy, Radiotherapy]).transpose()
-        X_test.columns = ['Age','T category','N category','M category','AJCC stage','Extent','Grade','Tumor size','Surgery','Hysterectomy','Chemotherapy','Radiotherapy']
-
-        X_test_encode = ENCODER(X_test)
-        X_test_scale = scaler.transform(X_test_encode)
-        X_test_scale = pd.DataFrame(X_test_scale, columns = X_test_encode.columns)             
-        X_test_final = X_test_scale
+        X_test = recode(Age, T_category, N_category, M_category, Stage, Extent, Grade, Tumor_size, Surgery, Hysterectomy, Chemotherapy, Radiotherapy)
+        X_test_scale = scaler.transform(X_test)
+        X_test_scale = pd.DataFrame(X_test_scale, columns = X_test.columns)             
+        X_test_final = X_test_scale[['Age', 'Extent', 'N category', 'Hysterectomy', 'Surgery_PR', 'Chemotherapy', 'M category', 
+                                     'Radiotherapy_RAI', 'Surgery_USO', 'Tumor size', 'Radiotherapy_EBRT', 'Grade', 'AJCC stage']]
 
         times = np.arange(0, 360)
         best_cop = 5.827909050252443
