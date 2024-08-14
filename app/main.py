@@ -85,10 +85,11 @@ def plot_personalized_predictions(estimator, X, times, best_cop, ax = None):
 def main():
     
     st.set_page_config(layout="wide")
+    st.title('MSO-Surv')
     col1, col2 = st.columns(2)
     
     with col1:
-        st.title('MSO-Surv')
+        
 
         st.write('A RSF-based prediction model to estimate the survival probability and stratify the risk for patients with malignant struma ovarii (MSO).\
             MSO-Surv was trained on 120 patients from Surveillance, Epidemiology, and End Results (SEER) database and validated with 194 patients from previous case reports.\
