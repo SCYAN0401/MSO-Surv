@@ -14,14 +14,6 @@ import sksurv
 import sklearn
 from sklearn.preprocessing import OrdinalEncoder
 
-st.markdown("""
-<style>
-body {
-    background-color: #00ff00;
-}
-</style>
-""", unsafe_allow_html=True)
-
 ###
 
 rsf = pickle.load(open('model/model.pkl', 'rb'))
@@ -92,7 +84,7 @@ def plot_personalized_predictions(estimator, X, times, best_cop, ax = None):
 ####
 def main():
     
-    # st.set_page_config(layout="wide")
+    st.set_page_config(layout="wide")
     col1, col2 = st.columns(2)
     
     with col1:
