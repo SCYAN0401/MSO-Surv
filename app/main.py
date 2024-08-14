@@ -6,6 +6,7 @@ import operator
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+import shap
 import sksurv
 import sklearn
 from sklearn.preprocessing import OrdinalEncoder
@@ -144,16 +145,23 @@ def main():
         
         X_test_final = X_test_scale[['Age', 'Extent', 'N category', 'Hysterectomy', 'Surgery_PR', 'Chemotherapy', 'M category', 
                                      'Radiotherapy_RAI', 'Surgery_USO', 'Tumor size', 'Radiotherapy_EBRT', 'Grade', 'AJCC stage']]
-
+        
+        explainer = shap.PermutationExplainer(rsf.predict, X_test_final)
+        explanation = explainer(X_test_rsf)
+                     
         times = np.arange(0, 360)
         best_cop = 5.827909050252443
-        
+             
         ax = plot_personalized_predictions(rsf, 
                                            X_test_final, 
                                            times, 
                                            best_cop)
-        fig = ax.get_figure()
+        fig = ax.get_figure()             
         st.pyplot(fig)
+
+        fig2 = shap.plots.waterfall(explanation, max_display=18, show = False)
+        # fig2 = plt.gca()
+        st.pyplot(fig2)
             
 if __name__=='__main__':
     main()
