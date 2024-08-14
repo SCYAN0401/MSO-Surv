@@ -64,19 +64,19 @@ def plot_personalized_predictions(estimator, X, times, best_cop, ax = None):
     rs = estimator.predict(X)
     if rs > best_cop:
         color_ = '#ff7f0e'
-        plt.text(0, 0.175, 'High-risk group', color=color_, weight='bold', fontsize = 6)
+        plt.text(0, 0.175, 'High-risk group', color=color_, weight='bold', fontsize = 7)
     else:
         color_ = '#1f77b4'
-        plt.text(0, 0.175, 'Low-risk group', color=color_, weight='bold', fontsize = 6)       
+        plt.text(0, 0.175, 'Low-risk group', color=color_, weight='bold', fontsize = 7)       
     pred_surv = estimator.predict_survival_function(X)
     for surv_func in pred_surv:    
         plt.step(times, surv_func(times), where="post", color=color_)
-    plt.xticks(np.arange(0,np.max(times)+30,60), fontsize = 6)
-    plt.yticks(fontsize = 6)
+    plt.xticks(np.arange(0,np.max(times)+30,60), fontsize = 7)
+    plt.yticks(fontsize = 7)
     plt.ylim(-0.05, 1.05)
-    plt.ylabel(r"est. probability of survival $\hat{S}(t)$", fontsize = 6)
-    plt.xlabel("time $t$ (months)", fontsize = 6)
-    plt.text(0, 0, f'Survival probability\n5-year: {surv_func(60):.1%}\n10-year: {surv_func(120):.1%}', fontsize = 6)
+    plt.ylabel(r"est. probability of survival $\hat{S}(t)$", fontsize = 7)
+    plt.xlabel("time $t$ (months)", fontsize = 7)
+    plt.text(0, 0, f'Survival probability\n5-year: {surv_func(60):.1%}\n10-year: {surv_func(120):.1%}', fontsize = 7)
     if ax is None:
         ax = plt.gca()
     return ax
