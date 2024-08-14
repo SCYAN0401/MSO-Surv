@@ -14,8 +14,13 @@ import sksurv
 import sklearn
 from sklearn.preprocessing import OrdinalEncoder
 
-[theme]
-backgroundColor="#FFFFFF"
+st.markdown("""
+<style>
+body {
+    background-color: #00ff00;
+}
+</style>
+""", unsafe_allow_html=True)
 
 ###
 
