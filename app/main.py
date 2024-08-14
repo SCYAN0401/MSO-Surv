@@ -151,6 +151,7 @@ def main():
         
         explainer = shap.PermutationExplainer(rsf.predict, X_test_final)
         explanation = explainer(X_test_final)
+        st_shap(shap.plots.waterfall(explanation[0], max_display=18))
                      
         times = np.arange(0, 360)
         best_cop = 5.827909050252443
@@ -162,7 +163,7 @@ def main():
         fig = ax.get_figure()             
         st.pyplot(fig)
 
-        st_shap(shap.plots.waterfall(explanation[0], max_display=18))
+        
             
 if __name__=='__main__':
     main()
