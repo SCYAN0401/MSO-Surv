@@ -143,31 +143,33 @@ def main():
         st.checkbox('**I understand MSO-Surv is solely for scientific research purposes.**',
                     key="disabled")
     
-    if st.button("**Predict**",
-                 disabled=operator.not_(st.session_state.disabled)):
-        
-        
-        X_test = recode(Age, T_category, N_category, M_category, Stage, Extent, Grade, Tumor_size, Surgery, Hysterectomy, Chemotherapy, Radiotherapy)
-        X_test_scale = scaler.transform(X_test)
-        X_test_scale = pd.DataFrame(X_test_scale, columns = X_test.columns)             
-        
-        X_test_final = X_test_scale[['Age', 'Extent', 'N category', 'Hysterectomy', 'Surgery_PR', 'Chemotherapy', 'M category', 
-                                     'Radiotherapy_RAI', 'Surgery_USO', 'Tumor size', 'Radiotherapy_EBRT', 'Grade', 'AJCC stage']]
-# shap
-        explainer = shap.PermutationExplainer(rsf.predict, X_test_)
-        explanation = explainer(X_test_final)
-        st_shap(shap.plots.waterfall(explanation[0], max_display=18), width=1000)
-                     
-# plot_personalized_predictions             
-
-        times = np.arange(0, 360)
-        best_cop = 5.827909050252443
-        ax = plot_personalized_predictions(rsf, 
-                                           X_test_final, 
-                                           times, 
-                                           best_cop)
-        fig = ax.get_figure()             
-        st.pyplot(fig)
+        if st.button("**Predict**",
+                     disabled=operator.not_(st.session_state.disabled)):
+            
+            
+            X_test = recode(Age, T_category, N_category, M_category, Stage, Extent, Grade, Tumor_size, Surgery, Hysterectomy, Chemotherapy, Radiotherapy)
+            X_test_scale = scaler.transform(X_test)
+            X_test_scale = pd.DataFrame(X_test_scale, columns = X_test.columns)             
+            
+            X_test_final = X_test_scale[['Age', 'Extent', 'N category', 'Hysterectomy', 'Surgery_PR', 'Chemotherapy', 'M category', 
+                                         'Radiotherapy_RAI', 'Surgery_USO', 'Tumor size', 'Radiotherapy_EBRT', 'Grade', 'AJCC stage']]
+    # shap
+            explainer = shap.PermutationExplainer(rsf.predict, X_test_)
+            explanation = explainer(X_test_final)
+            with col3:
+                st_shap(shap.plots.waterfall(explanation[0], max_display=18), width=1000)
+                         
+    # plot_personalized_predictions             
+    
+            times = np.arange(0, 360)
+            best_cop = 5.827909050252443
+            ax = plot_personalized_predictions(rsf, 
+                                               X_test_final, 
+                                               times, 
+                                               best_cop)
+            fig = ax.get_figure()  
+            with col3:
+                st.pyplot(fig)
             
 if __name__=='__main__':
     main()
