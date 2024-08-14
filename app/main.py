@@ -94,84 +94,84 @@ def main():
 
     st.divider()
     
-    col1, col2, col3 = st.columns(3)
+    col1, col2 = st.columns(2)
     
     with col1:
-        Age = st.slider('**Age (years)**',
-                        min_value = 11, 
-                        max_value = 82)
-    
-        T_category = st.radio("**T category (AJCC for ovarian cancer)**",
-                              ["T1", "T2", 'T3'])
-    
-        N_category = st.radio("**N category (AJCC for ovarian cancer)**",
-                              ["N0", "N1"])
+        col1_, col2_ = st.columns(2)
+        with col1_:
+            Age = st.slider('**Age (years)**',
+                            min_value = 11, 
+                            max_value = 82)
         
-        M_category = st.radio("**M category (AJCC for ovarian cancer)**",
-                              ["M0", "M1"])
+            T_category = st.radio("**T category (AJCC for ovarian cancer)**",
+                                  ["T1", "T2", 'T3'])
         
-        Stage = st.radio("**Stage (AJCC for ovarian cancer)**",
-                         ['I','II','III','IV'] )
-        
-        Extent = st.radio("**Extent of tumor**",
-                         ['CTO','DM/PE'],
-                         captions=['Confined to ovary', 'Distant metastasis/Peritoneal extension'])
-        
-        Grade = st.radio("**Grade**",
-                         ['D','PD/UD'],
-                         captions=['Differentiated', 'Poorly differentiated/Undifferentiated'])
-    
-    with col2:       
-        Tumor_size = st.slider('**Tumor size (mm)**', 
-                               min_value = 1,
-                               max_value = 250)
-    
-        Surgery = st.radio("**Surgery for the primary tumor**",
-                           ["USO", "BSO", "SOwO", "PR", 'No'],
-                           captions = ["Unilateral salpingo-oophorectomy", "Bilateral salpingo-oophorectomy", "Salpingo-oophorectomy with omentectomy", 
-                                       "Partial resection, such as cystectomy", 'No surgery performed'])
-    
-        Hysterectomy = st.radio("**Hysterectomy**",
-                                ['No', 'Yes'])
-    
-        Chemotherapy = st.radio("**Chemotherapy**",
-                                ['No/Unknown', 'Yes'])
-        
-        Radiotherapy = st.radio("**Radiotherapy**",
-                                ['No/Unknown', 'RAI', 'EBRT'])
-
-    # st.divider()
-
-####
-    
-        if "disabled" not in st.session_state:
-            st.session_state['disabled'] = False
-
-        st.checkbox('**I understand MSO-Surv is solely for scientific research purposes.**',
-                    key="disabled")
-    
-        if st.button("**Predict**",
-                     disabled=operator.not_(st.session_state.disabled)):
+            N_category = st.radio("**N category (AJCC for ovarian cancer)**",
+                                  ["N0", "N1"])
             
+            M_category = st.radio("**M category (AJCC for ovarian cancer)**",
+                                  ["M0", "M1"])
             
-            X_test = recode(Age, T_category, N_category, M_category, Stage, Extent, Grade, Tumor_size, Surgery, Hysterectomy, Chemotherapy, Radiotherapy)
-            X_test_scale = scaler.transform(X_test)
-            X_test_scale = pd.DataFrame(X_test_scale, columns = X_test.columns)             
+            Stage = st.radio("**Stage (AJCC for ovarian cancer)**",
+                             ['I','II','III','IV'] )
             
-            X_test_final = X_test_scale[['Age', 'Extent', 'N category', 'Hysterectomy', 'Surgery_PR', 'Chemotherapy', 'M category', 
-                                         'Radiotherapy_RAI', 'Surgery_USO', 'Tumor size', 'Radiotherapy_EBRT', 'Grade', 'AJCC stage']]
-
-
-            with col3:
-                explanation = explainer(X_test_final)
-                st.write('SHAP plot')
-                st_shap(shap.plots.waterfall(explanation[0], max_display=18), width=600, height=400)
+            Extent = st.radio("**Extent of tumor**",
+                             ['CTO','DM/PE'],
+                             captions=['Confined to ovary', 'Distant metastasis/Peritoneal extension'])
+            
+            Grade = st.radio("**Grade**",
+                             ['D','PD/UD'],
+                             captions=['Differentiated', 'Poorly differentiated/Undifferentiated'])
+    
+        with col2_:       
+            Tumor_size = st.slider('**Tumor size (mm)**', 
+                                   min_value = 1,
+                                   max_value = 250)
+        
+            Surgery = st.radio("**Surgery for the primary tumor**",
+                               ["USO", "BSO", "SOwO", "PR", 'No'],
+                               captions = ["Unilateral salpingo-oophorectomy", "Bilateral salpingo-oophorectomy", "Salpingo-oophorectomy with omentectomy", 
+                                           "Partial resection, such as cystectomy", 'No surgery performed'])
+        
+            Hysterectomy = st.radio("**Hysterectomy**",
+                                    ['No', 'Yes'])
+        
+            Chemotherapy = st.radio("**Chemotherapy**",
+                                    ['No/Unknown', 'Yes'])
+            
+            Radiotherapy = st.radio("**Radiotherapy**",
+                                    ['No/Unknown', 'RAI', 'EBRT'])
+    
+    ####
+        
+            if "disabled" not in st.session_state:
+                st.session_state['disabled'] = False
+    
+            st.checkbox('**I understand MSO-Surv is solely for scientific research purposes.**',
+                        key="disabled")
+        
+            if st.button("**Predict**",
+                         disabled=operator.not_(st.session_state.disabled)):
                 
-                ax = plot_personalized_predictions(rsf, X_test_final, times, best_cop)
-                fig = ax.get_figure()
-                fig.set_size_inches(3,2)
-                st.write('KM plot')
-                st.pyplot(fig, use_container_width = False)
+                
+                X_test = recode(Age, T_category, N_category, M_category, Stage, Extent, Grade, Tumor_size, Surgery, Hysterectomy, Chemotherapy, Radiotherapy)
+                X_test_scale = scaler.transform(X_test)
+                X_test_scale = pd.DataFrame(X_test_scale, columns = X_test.columns)             
+                
+                X_test_final = X_test_scale[['Age', 'Extent', 'N category', 'Hysterectomy', 'Surgery_PR', 'Chemotherapy', 'M category', 
+                                             'Radiotherapy_RAI', 'Surgery_USO', 'Tumor size', 'Radiotherapy_EBRT', 'Grade', 'AJCC stage']]
+
+
+                with col2:
+                    explanation = explainer(X_test_final)
+                    st.write('SHAP plot')
+                    st_shap(shap.plots.waterfall(explanation[0], max_display=18), width=800, height=400)
+                    
+                    ax = plot_personalized_predictions(rsf, X_test_final, times, best_cop)
+                    fig = ax.get_figure()
+                    fig.set_size_inches(6,4)
+                    st.write('KM plot')
+                    st.pyplot(fig, use_container_width = False)
                               
 if __name__=='__main__':
     main()
