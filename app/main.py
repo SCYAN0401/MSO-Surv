@@ -71,7 +71,8 @@ def plot_personalized_predictions(estimator, X, times, best_cop, ax = None):
     pred_surv = estimator.predict_survival_function(X)
     for surv_func in pred_surv:    
         plt.step(times, surv_func(times), where="post", color=color_)
-    plt.xticks(np.arange(0,np.max(times)+30,60))
+    plt.xticks(np.arange(0,np.max(times)+30,60), fontsize = 8)
+    plt.yticks(fontsize = 8)
     plt.ylim(-0.05, 1.05)
     plt.ylabel(r"est. probability of survival $\hat{S}(t)$", fontsize = 8)
     plt.xlabel("time $t$ (months)", fontsize = 8)
