@@ -86,50 +86,52 @@ def main():
             This prediction model has been developed and validated solely for scientific research purposes and has not been evaluated prospectively or approved for clinical use.')
 
     st.divider()
-
-    Age = st.slider('**Age (years)**',
-                    min_value = 11, 
-                    max_value = 82)
-
-    T_category = st.radio("**T category (AJCC for ovarian cancer)**",
-                          ["T1", "T2", 'T3'])
-
-    N_category = st.radio("**N category (AJCC for ovarian cancer)**",
-                          ["N0", "N1"])
     
-    M_category = st.radio("**M category (AJCC for ovarian cancer)**",
-                          ["M0", "M1"])
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        Age = st.slider('**Age (years)**',
+                        min_value = 11, 
+                        max_value = 82)
     
-    Stage = st.radio("**Stage (AJCC for ovarian cancer)**",
-                     ['I','II','III','IV'] )
+        T_category = st.radio("**T category (AJCC for ovarian cancer)**",
+                              ["T1", "T2", 'T3'])
     
-    Extent = st.radio("**Extent of tumor**",
-                     ['CTO','DM/PE'],
-                     captions=['Confined to ovary', 'Distant metastasis/Peritoneal extension'])
+        N_category = st.radio("**N category (AJCC for ovarian cancer)**",
+                              ["N0", "N1"])
+        
+        M_category = st.radio("**M category (AJCC for ovarian cancer)**",
+                              ["M0", "M1"])
+        
+        Stage = st.radio("**Stage (AJCC for ovarian cancer)**",
+                         ['I','II','III','IV'] )
+        
+        Extent = st.radio("**Extent of tumor**",
+                         ['CTO','DM/PE'],
+                         captions=['Confined to ovary', 'Distant metastasis/Peritoneal extension'])
+        
+        Grade = st.radio("**Grade**",
+                         ['D','PD/UD'],
+                         captions=['Differentiated', 'Poorly differentiated/Undifferentiated'])
+           
+        Tumor_size = st.slider('**Tumor size (mm)**', 
+                               min_value = 1,
+                               max_value = 250)
     
-    Grade = st.radio("**Grade**",
-                     ['D','PD/UD'],
-                     captions=['Differentiated', 'Poorly differentiated/Undifferentiated'])
-       
-    Tumor_size = st.slider('**Tumor size (mm)**', 
-                           min_value = 1,
-                           max_value = 250)
-
-    Surgery = st.radio("**Surgery for the primary tumor**",
-                       ["USO", "BSO", "SOwO", "PR", 'No'],
-                       captions = ["Unilateral salpingo-oophorectomy", "Bilateral salpingo-oophorectomy", "Salpingo-oophorectomy with omentectomy", 
-                                   "Partial resection, such as cystectomy", 'No surgery performed'])
-
-    Hysterectomy = st.radio("**Hysterectomy**",
-                            ['No', 'Yes'])
-
-    Chemotherapy = st.radio("**Chemotherapy**",
-                            ['No/Unknown', 'Yes'])
+        Surgery = st.radio("**Surgery for the primary tumor**",
+                           ["USO", "BSO", "SOwO", "PR", 'No'],
+                           captions = ["Unilateral salpingo-oophorectomy", "Bilateral salpingo-oophorectomy", "Salpingo-oophorectomy with omentectomy", 
+                                       "Partial resection, such as cystectomy", 'No surgery performed'])
     
-    Radiotherapy = st.radio("**Radiotherapy**",
-                            ['No/Unknown', 'RAI', 'EBRT'])
+        Hysterectomy = st.radio("**Hysterectomy**",
+                                ['No', 'Yes'])
+    
+        Chemotherapy = st.radio("**Chemotherapy**",
+                                ['No/Unknown', 'Yes'])
+        
+        Radiotherapy = st.radio("**Radiotherapy**",
+                                ['No/Unknown', 'RAI', 'EBRT'])
 
-    st.divider()
+    # st.divider()
 
 ####
     
