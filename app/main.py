@@ -148,22 +148,18 @@ def main():
         
         X_test_final = X_test_scale[['Age', 'Extent', 'N category', 'Hysterectomy', 'Surgery_PR', 'Chemotherapy', 'M category', 
                                      'Radiotherapy_RAI', 'Surgery_USO', 'Tumor size', 'Radiotherapy_EBRT', 'Grade', 'AJCC stage']]
-        
-        explainer = shap.Explainer(rsf.predict, X_test_final)
-        explanation = explainer(X_test_final)
-        st_shap(shap.plots.waterfall(explanation[0], max_display=18))
-                     
+
+
+# plot_personalized_predictions             
+
         times = np.arange(0, 360)
         best_cop = 5.827909050252443
-             
         ax = plot_personalized_predictions(rsf, 
                                            X_test_final, 
                                            times, 
                                            best_cop)
         fig = ax.get_figure()             
         st.pyplot(fig)
-
-        
             
 if __name__=='__main__':
     main()
