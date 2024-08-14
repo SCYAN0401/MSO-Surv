@@ -165,11 +165,11 @@ def main():
                 with col2:
                     explanation = explainer(X_test_final)
                     st.write('SHAP plot')
-                    st_shap(shap.plots.waterfall(explanation[0], max_display=18), width=800, height=400)
+                    st_shap(shap.plots.waterfall(explanation[0], max_display=18), width=1000, height=400)
                     
                     ax = plot_personalized_predictions(rsf, X_test_final, times, best_cop)
                     fig = ax.get_figure()
-                    fig.set_size_inches(6,4)
+                    fig.set_size_inches(5,4)
                     st.write('KM plot')
                     st.pyplot(fig, use_container_width = False)
                               
