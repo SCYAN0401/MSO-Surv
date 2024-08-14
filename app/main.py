@@ -149,7 +149,7 @@ def main():
         X_test_final = X_test_scale[['Age', 'Extent', 'N category', 'Hysterectomy', 'Surgery_PR', 'Chemotherapy', 'M category', 
                                      'Radiotherapy_RAI', 'Surgery_USO', 'Tumor size', 'Radiotherapy_EBRT', 'Grade', 'AJCC stage']]
         
-        explainer = shap.PermutationExplainer(rsf.predict, X_test_final)
+        explainer = shap.Explainer(rsf.predict, X_test_final)
         explanation = explainer(X_test_final)
         st_shap(shap.plots.waterfall(explanation[0], max_display=18))
                      
