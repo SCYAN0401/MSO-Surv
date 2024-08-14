@@ -1,7 +1,7 @@
 ###
 
 import streamlit as st
-import streamlit.components.v1 as components
+from streamlit_shap import st_shap
 
 import pickle
 import operator
@@ -168,7 +168,7 @@ def main():
         fig = ax.get_figure()             
         st.pyplot(fig)
 
-        st_shap(shap.plots.beeswarm(explanation, max_display=18, show = False))
+        st_shap(shap.plots.waterfall(explanation[0], max_display=18))
             
 if __name__=='__main__':
     main()
