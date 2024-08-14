@@ -168,9 +168,10 @@ def main():
                 st_shap(shap.plots.waterfall(explanation[0], max_display=18), width=800, height=400)
                 
                 ax = plot_personalized_predictions(rsf, X_test_final, times, best_cop)
-                fig = ax.get_figure()  
+                fig = ax.get_figure()
+                fig.set_size_inches(6,4)
                 st.write('KM plot')
-                st.pyplot(fig)
+                st.pyplot(fig, use_container_width = False)
                               
 if __name__=='__main__':
     main()
