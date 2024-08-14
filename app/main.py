@@ -94,7 +94,7 @@ def main():
 
     st.divider()
     
-    col1, col2, col3, col4 = st.columns(4)
+    col1, col2, col3 = st.columns(3)
     
     with col1:
         Age = st.slider('**Age (years)**',
@@ -161,18 +161,16 @@ def main():
             X_test_final = X_test_scale[['Age', 'Extent', 'N category', 'Hysterectomy', 'Surgery_PR', 'Chemotherapy', 'M category', 
                                          'Radiotherapy_RAI', 'Surgery_USO', 'Tumor size', 'Radiotherapy_EBRT', 'Grade', 'AJCC stage']]
 
-# plot_personalized_predictions
-            ax = plot_personalized_predictions(rsf, X_test_final, times, best_cop)
-            fig = ax.get_figure()  
+
             with col3:
+                explanation = explainer(X_test_final)
+                st.write('SHAP plot')
+                st_shap(shap.plots.waterfall(explanation[0], max_display=18), width=800, height=400)
+                
+                ax = plot_personalized_predictions(rsf, X_test_final, times, best_cop)
+                fig = ax.get_figure()  
                 st.write('KM plot')
                 st.pyplot(fig)
-
-# shap
-            explanation = explainer(X_test_final)
-            with col4:
-                st.write('SHAP plot')
-                st_shap(shap.plots.waterfall(explanation[0], max_display=18), width=1000, height=400)
-                                   
+                              
 if __name__=='__main__':
     main()
