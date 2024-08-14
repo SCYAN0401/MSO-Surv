@@ -161,7 +161,7 @@ def main():
 
         shap.plots.waterfall(explanation, max_display=18, show = False)
         current_axis = plt.gca()
-        st.pyplot(fig2)
+        st.pyplot(current_axis)
             
 if __name__=='__main__':
     main()
