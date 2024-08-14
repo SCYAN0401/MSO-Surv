@@ -159,8 +159,8 @@ def main():
         fig = ax.get_figure()             
         st.pyplot(fig)
 
-        fig2 = shap.plots.waterfall(explanation, max_display=18, show = False)
-        # fig2 = plt.gca()
+        shap.plots.waterfall(explanation, max_display=18, show = False)
+        fig2 = plt.gca()
         st.pyplot(fig2)
             
 if __name__=='__main__':
