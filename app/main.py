@@ -84,20 +84,18 @@ def plot_personalized_predictions(estimator, X, times, best_cop, ax = None):
 def main():
 
     st.set_page_config(layout="wide")
-    
-    
-    st.title('MSO-Surv')
-
-    st.write('A RSF-based prediction model to estimate the survival probability and stratify the risk for patients with malignant struma ovarii (MSO).\
-        MSO-Surv was trained on 120 patients from Surveillance, Epidemiology, and End Results (SEER) database and validated with 194 patients from previous case reports.\
-            This prediction model has been developed and validated solely for scientific research purposes and has not been evaluated prospectively or approved for clinical use.')
-
-    st.divider()
-    
     col1, col2 = st.columns(2)
     
     with col1:
+        st.title('MSO-Surv')
+
+        st.write('A RSF-based prediction model to estimate the survival probability and stratify the risk for patients with malignant struma ovarii (MSO).\
+            MSO-Surv was trained on 120 patients from Surveillance, Epidemiology, and End Results (SEER) database and validated with 194 patients from previous case reports.\
+                This prediction model has been developed and validated solely for scientific research purposes and has not been evaluated prospectively or approved for clinical use.')
+    
+        st.divider()
         col1_, col2_ = st.columns(2)
+        
         with col1_:
             Age = st.slider('**Age (years)**',
                             min_value = 11, 
@@ -165,11 +163,11 @@ def main():
                 with col2:
                     explanation = explainer(X_test_final)
                     st.write('SHAP plot')
-                    st_shap(shap.plots.waterfall(explanation[0], max_display=18), width=1000, height=400)
+                    st_shap(shap.plots.waterfall(explanation[0], max_display=18), width=900, height=400)
                     
                     ax = plot_personalized_predictions(rsf, X_test_final, times, best_cop)
                     fig = ax.get_figure()
-                    fig.set_size_inches(5,4)
+                    fig.set_size_inches(4.5,4)
                     st.write('KM plot')
                     st.pyplot(fig, use_container_width = False)
                               
