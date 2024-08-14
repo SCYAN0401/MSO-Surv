@@ -165,7 +165,7 @@ def main():
                 with col2:
                     explanation = explainer(X_test_final)
                     st.write('SHAP plot')
-                    st_shap(shap.plots.waterfall(explanation[0], max_display=18), width=900, height=400)
+                    st_shap(shap.plots.waterfall(explanation[0], max_display=18), width=950, height=400)
                     
                     ax = plot_personalized_predictions(rsf, X_test_final, times, best_cop)
                     fig = ax.get_figure()
