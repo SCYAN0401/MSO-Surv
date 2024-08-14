@@ -88,6 +88,7 @@ def main():
     st.divider()
     
     col1, col2, col3 = st.columns(3)
+    
     with col1:
         Age = st.slider('**Age (years)**',
                         min_value = 11, 
@@ -138,8 +139,9 @@ def main():
     if "disabled" not in st.session_state:
         st.session_state['disabled'] = False
     
-    st.checkbox('**I understand MSO-Surv is solely for scientific research purposes.**',
-                key="disabled")
+    with col2:
+        st.checkbox('**I understand MSO-Surv is solely for scientific research purposes.**',
+                    key="disabled")
     
     if st.button("**Predict**",
                  disabled=operator.not_(st.session_state.disabled)):
