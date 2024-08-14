@@ -18,7 +18,12 @@ from sklearn.preprocessing import OrdinalEncoder
 
 rsf = pickle.load(open('model/model.pkl', 'rb'))
 scaler = pickle.load(open('model/scaler.pkl', 'rb'))
+
 X_test_ = pickle.load(open('model/X_test.pkl', 'rb'))
+explainer = shap.PermutationExplainer(rsf.predict, X_test_)
+
+times = np.arange(0, 360)
+best_cop = 5.827909050252443
 
 ###
 
@@ -78,6 +83,17 @@ def plot_personalized_predictions(estimator, X, times, best_cop, ax = None):
 ####
 
 def main():
+
+    st.markdown(
+        """
+        <style>
+        [aria-label="dialog"]{
+            width: 90%;
+            background-color: pink;
+        }
+        </style>
+        """, unsafe_allow_html=True
+    )
     
     st.title('MSO-Surv')
 
@@ -153,23 +169,19 @@ def main():
             
             X_test_final = X_test_scale[['Age', 'Extent', 'N category', 'Hysterectomy', 'Surgery_PR', 'Chemotherapy', 'M category', 
                                          'Radiotherapy_RAI', 'Surgery_USO', 'Tumor size', 'Radiotherapy_EBRT', 'Grade', 'AJCC stage']]
-    # shap
-            explainer = shap.PermutationExplainer(rsf.predict, X_test_)
-            explanation = explainer(X_test_final)
-            with col3:
-                st_shap(shap.plots.waterfall(explanation[0], max_display=18), width=1000)
-                         
-    # plot_personalized_predictions             
-    
-            times = np.arange(0, 360)
-            best_cop = 5.827909050252443
-            ax = plot_personalized_predictions(rsf, 
-                                               X_test_final, 
-                                               times, 
-                                               best_cop)
+
+# plot_personalized_predictions
+            ax = plot_personalized_predictions(rsf, X_test_final, times, best_cop)
             fig = ax.get_figure()  
             with col3:
+                st.write('KM plot')
                 st.pyplot(fig)
-            
+
+# shap
+            explanation = explainer(X_test_final)
+            with col3:
+                st.write('SHAP plot')
+                st_shap(shap.plots.waterfall(explanation[0], max_display=18), width=1000)
+                                   
 if __name__=='__main__':
     main()
