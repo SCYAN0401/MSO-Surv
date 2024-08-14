@@ -1,8 +1,11 @@
 ###
 
 import streamlit as st
+import streamlit.components.v1 as components
+
 import pickle
 import operator
+
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -16,6 +19,12 @@ from sklearn.preprocessing import OrdinalEncoder
 rsf = pickle.load(open('model/model.pkl', 'rb'))
 scaler = pickle.load(open('model/scaler.pkl', 'rb'))
 
+###
+
+def st_shap(plot, height=None):
+    shap_html = f"<head>{shap.getjs()}</head><body>{plot.html()}</body>"
+    components.html(shap_html, height=height)
+    
 ###
 
 def recode(Age, T_category, N_category, M_category, Stage, Extent, Grade, Tumor_size, Surgery, Hysterectomy, Chemotherapy, Radiotherapy):
@@ -159,9 +168,7 @@ def main():
         fig = ax.get_figure()             
         st.pyplot(fig)
 
-        shap.plots.waterfall(explanation, max_display=18, show = False)
-        current_axis = plt.gca()
-        st.pyplot(current_axis)
+        st_shap(shap.plots.waterfall(explanation, max_display=18))
             
 if __name__=='__main__':
     main()
