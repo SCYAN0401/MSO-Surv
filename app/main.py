@@ -18,7 +18,8 @@ from sklearn.preprocessing import OrdinalEncoder
 
 rsf = pickle.load(open('model/model.pkl', 'rb'))
 scaler = pickle.load(open('model/scaler.pkl', 'rb'))
-    
+explainer = pickle.load(open('model/explainer.pkl', 'rb'))
+
 ###
 
 def recode(Age, T_category, N_category, M_category, Stage, Extent, Grade, Tumor_size, Surgery, Hysterectomy, Chemotherapy, Radiotherapy):
@@ -148,8 +149,10 @@ def main():
         
         X_test_final = X_test_scale[['Age', 'Extent', 'N category', 'Hysterectomy', 'Surgery_PR', 'Chemotherapy', 'M category', 
                                      'Radiotherapy_RAI', 'Surgery_USO', 'Tumor size', 'Radiotherapy_EBRT', 'Grade', 'AJCC stage']]
-
-
+# shap
+        explanation = explainer(X_test_final)
+        st_shap(shap.plots.waterfall(explanation[0], max_display=18))
+                     
 # plot_personalized_predictions             
 
         times = np.arange(0, 360)
