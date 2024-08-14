@@ -14,6 +14,9 @@ import sksurv
 import sklearn
 from sklearn.preprocessing import OrdinalEncoder
 
+[theme]
+backgroundColor="#FFFFFF"
+
 ###
 
 rsf = pickle.load(open('model/model.pkl', 'rb'))
@@ -83,9 +86,7 @@ def plot_personalized_predictions(estimator, X, times, best_cop, ax = None):
 
 ####
 def main():
-    [theme]
-    backgroundColor="#FFFFFF"
-
+    
     st.set_page_config(layout="wide")
     col1, col2 = st.columns(2)
     
