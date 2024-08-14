@@ -84,6 +84,7 @@ def plot_personalized_predictions(estimator, X, times, best_cop, ax = None):
 def main():
 
     st.set_page_config(layout="wide")
+    col1, col2, col3, col4 = st.columns(4)
     
     st.title('MSO-Surv')
 
@@ -92,9 +93,7 @@ def main():
             This prediction model has been developed and validated solely for scientific research purposes and has not been evaluated prospectively or approved for clinical use.')
 
     st.divider()
-    
-    col1, col2, col3, col4 = st.columns(3)
-    
+
     with col1:
         Age = st.slider('**Age (years)**',
                         min_value = 11, 
