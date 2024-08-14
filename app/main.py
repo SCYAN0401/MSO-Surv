@@ -147,7 +147,7 @@ def main():
                                      'Radiotherapy_RAI', 'Surgery_USO', 'Tumor size', 'Radiotherapy_EBRT', 'Grade', 'AJCC stage']]
         
         explainer = shap.PermutationExplainer(rsf.predict, X_test_final)
-        explanation = explainer(X_test_rsf)
+        explanation = explainer(X_test_final)
                      
         times = np.arange(0, 360)
         best_cop = 5.827909050252443
