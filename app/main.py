@@ -81,18 +81,9 @@ def plot_personalized_predictions(estimator, X, times, best_cop, ax = None):
     return ax
 
 ####
-st.markdown(
-    """
-    <style>
-    [aria-label="dialog"]{
-        width: 90%;
-        background-color: pink;
-    }
-    </style>
-    """, unsafe_allow_html=True
-)
-
 def main():
+
+    st.set_page_config(layout="wide")
     
     st.title('MSO-Surv')
 
@@ -102,7 +93,7 @@ def main():
 
     st.divider()
     
-    col1, col2, col3 = st.columns(3)
+    col1, col2, col3, col4 = st.columns(3)
     
     with col1:
         Age = st.slider('**Age (years)**',
@@ -128,7 +119,8 @@ def main():
         Grade = st.radio("**Grade**",
                          ['D','PD/UD'],
                          captions=['Differentiated', 'Poorly differentiated/Undifferentiated'])
-           
+    
+    with col2:       
         Tumor_size = st.slider('**Tumor size (mm)**', 
                                min_value = 1,
                                max_value = 250)
@@ -151,10 +143,9 @@ def main():
 
 ####
     
-    if "disabled" not in st.session_state:
-        st.session_state['disabled'] = False
-    
-    with col2:
+        if "disabled" not in st.session_state:
+            st.session_state['disabled'] = False
+
         st.checkbox('**I understand MSO-Surv is solely for scientific research purposes.**',
                     key="disabled")
     
@@ -178,7 +169,7 @@ def main():
 
 # shap
             explanation = explainer(X_test_final)
-            with col3:
+            with col4:
                 st.write('SHAP plot')
                 st_shap(shap.plots.waterfall(explanation[0], max_display=18), width=1000)
                                    
