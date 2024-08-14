@@ -81,19 +81,18 @@ def plot_personalized_predictions(estimator, X, times, best_cop, ax = None):
     return ax
 
 ####
+st.markdown(
+    """
+    <style>
+    [aria-label="dialog"]{
+        width: 90%;
+        background-color: pink;
+    }
+    </style>
+    """, unsafe_allow_html=True
+)
 
 def main():
-
-    st.markdown(
-        """
-        <style>
-        [aria-label="dialog"]{
-            width: 90%;
-            background-color: pink;
-        }
-        </style>
-        """, unsafe_allow_html=True
-    )
     
     st.title('MSO-Surv')
 
