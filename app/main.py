@@ -168,7 +168,7 @@ def main():
         fig = ax.get_figure()             
         st.pyplot(fig)
 
-        st_shap(shap.plots.beeswarm(explanation, max_display=18))
+        st_shap(shap.plots.beeswarm(explanation, max_display=18, show = False))
             
 if __name__=='__main__':
     main()
