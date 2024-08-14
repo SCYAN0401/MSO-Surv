@@ -152,7 +152,7 @@ def main():
 # shap
         explainer = shap.PermutationExplainer(rsf.predict, X_test_)
         explanation = explainer(X_test_final)
-        st_shap(shap.plots.waterfall(explanation[0], max_display=18))
+        st_shap(shap.plots.beeswarm(explanation, max_display=18))
                      
 # plot_personalized_predictions             
 
