@@ -180,7 +180,7 @@ def main():
                     str(Surgery_USO) + ' = ' + 'Surgery_USO', 
                     str(Tumor_size) + ' mm' + ' = ' + 'Tumor size', 
                     str(Radiotherapy_EBRT) + ' = ' + 'Radiotherapy_EBRT', 
-                    str(Grade) + ' = ' + 'Grade', 
+                    str(Grade__) + ' = ' + 'Grade', 
                     str(Stage) + ' = ' + 'AJCC stage'
                 ]
                              
