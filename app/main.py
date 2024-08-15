@@ -147,6 +147,7 @@ def main():
             Surgery_USO = 'Yes' if Surgery == 'USO' else 'No'
             Radiotherapy_RAI = {'RAI': 'Yes', 'EBRT': 'No', 'No/Unknown': 'No/Unknown'}[Radiotherapy]
             Radiotherapy_EBRT = {'EBRT': 'Yes', 'RAI': 'No', 'No/Unknown': 'No/Unknown'}[Radiotherapy]
+            Grade__ = 'Differentiated' if Grade == 'D' else Grade
             
     ####
         
