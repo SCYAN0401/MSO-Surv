@@ -200,7 +200,12 @@ def main():
                     st.write('SHAP plot')
                     figure = shap.plots.waterfall(explanation[0], max_display=18, show = False)
                     ax_ = figure.get_axes()[0]
-                    ax_.set_yticks(np.arange(0, 13, 1))
+                    
+                    tick_labels = ax_.yaxis.get_majorticklabels()
+                    for i in range(len(sorted_ylabels)):
+                        tick_labels[i].set_color("black")
+                        
+                    ax_.set_yticks(np.arange(len(sorted_ylabels)))
                     ax_.set_yticklabels(sorted_ylabels)
                     figure = ax_.get_figure()
                     
