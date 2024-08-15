@@ -142,10 +142,11 @@ def main():
             Radiotherapy = st.radio("**Radiotherapy**",
                                     ['No/Unknown', 'RAI', 'EBRT'])
     ####
+            
             Surgery_PR = 'Yes' if Surgery == 'PR' else 'No'
             Surgery_USO = 'Yes' if Surgery == 'USO' else 'No'
-            Radiotherapy_RAI = 'Yes' if Radiotherapy == 'RAI' else Radiotherapy_RAI = 'No' if Radiotherapy == 'EBRT' else 'No/Unknown'
-            Radiotherapy_EBRT = 'Yes' if Radiotherapy == 'EBRT' else Radiotherapy_RAI = 'No' if Radiotherapy == 'RAI' else 'No/Unknown'
+            Radiotherapy_RAI = {'RAI': 'Yes', 'EBRT': 'No', 'No/Unknown': 'No/Unknown'}[Radiotherapy]
+            Radiotherapy_EBRT = {'EBRT': 'Yes', 'RAI': 'No', 'No/Unknown': 'No/Unknown'}[Radiotherapy]
             
     ####
         
