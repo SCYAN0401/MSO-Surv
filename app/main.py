@@ -167,21 +167,21 @@ def main():
                 X_test_final = X_test_scale[['Age', 'Extent', 'N category', 'Hysterectomy', 'Surgery_PR', 'Chemotherapy', 'M category', 
                                              'Radiotherapy_RAI', 'Surgery_USO', 'Tumor size', 'Radiotherapy_EBRT', 'Grade', 'AJCC stage']]
 
-                ylabels = [
-                    str(Age) + ' years' + ' = ' + 'Age',
-                    str(Extent) + ' = ' + 'Extent', 
-                    str(N_category) + ' = ' + 'N category', 
-                    str(Hysterectomy) + ' = ' + 'Hysterectomy', 
-                    str(Surgery_PR) + ' = ' + 'Surgery_PR', 
-                    str(Chemotherapy) + ' = ' + 'Chemotherapy', 
-                    str(M_category) + ' = ' + 'M category', 
-                    str(Radiotherapy_RAI) + ' = ' + 'Radiotherapy_RAI', 
-                    str(Surgery_USO) + ' = ' + 'Surgery_USO', 
-                    str(Tumor_size) + ' mm' + ' = ' + 'Tumor size', 
-                    str(Radiotherapy_EBRT) + ' = ' + 'Radiotherapy_EBRT', 
-                    str(Grade) + ' = ' + 'Grade', 
-                    str(Stage) + ' = ' + 'AJCC stage'
-                ]
+        ylabels = [
+            str(Age) + ' years' + ' = ' + 'Age',
+            str(Extent) + ' = ' + 'Extent', 
+            str(N_category) + ' = ' + 'N category', 
+            str(Hysterectomy) + ' = ' + 'Hysterectomy', 
+            str(Surgery_PR) + ' = ' + 'Surgery_PR', 
+            str(Chemotherapy) + ' = ' + 'Chemotherapy', 
+            str(M_category) + ' = ' + 'M category', 
+            str(Radiotherapy_RAI) + ' = ' + 'Radiotherapy_RAI', 
+            str(Surgery_USO) + ' = ' + 'Surgery_USO', 
+            str(Tumor_size) + ' mm' + ' = ' + 'Tumor size', 
+            str(Radiotherapy_EBRT) + ' = ' + 'Radiotherapy_EBRT', 
+            str(Grade) + ' = ' + 'Grade', 
+            str(Stage) + ' = ' + 'AJCC stage'
+        ]
                              
                 with col2:
                     explanation = explainer(X_test_final)
