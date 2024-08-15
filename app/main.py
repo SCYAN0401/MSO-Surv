@@ -197,13 +197,13 @@ def main():
                     sorted_ylabels
 
                     st.write('SHAP plot')
-                    shap.plots.waterfall(explanation[0], max_display=18, show = False)
-                    ax_ = plt.gca()
+                    figure = shap.plots.waterfall(explanation[0], max_display=18, show = False)
+                    ax_ = figure.get_axes()[0]
                     ax_.set_yticks(np.arange(0, 13, 1))
                     ax_.set_yticklabels(sorted_ylabels)
-                    plot = ax_.get_figure()
+                    figure = ax_.get_figure()
                     
-                    st_shap(plot, width=1000, height=400)
+                    st_shap(figure, width=1000, height=400)
                     
                     ax = plot_personalized_predictions(rsf, X_test_final, times, best_cop)
                     fig = ax.get_figure()
