@@ -141,7 +141,12 @@ def main():
             
             Radiotherapy = st.radio("**Radiotherapy**",
                                     ['No/Unknown', 'RAI', 'EBRT'])
-    
+    ####
+            Surgery_PR = 'Yes' if Surgery == 'PR' else 'No'
+            Surgery_USO = 'Yes' if Surgery == 'USO' else 'No'
+            Radiotherapy_RAI = 'Yes' if Radiotherapy == 'RAI' else Radiotherapy_RAI = 'No' if Radiotherapy == 'EBRT' else 'No/Unknown'
+            Radiotherapy_EBRT = 'Yes' if Radiotherapy == 'EBRT' else Radiotherapy_RAI = 'No' if Radiotherapy == 'RAI' else 'No/Unknown'
+            
     ####
         
             if "disabled" not in st.session_state:
@@ -161,11 +166,44 @@ def main():
                 X_test_final = X_test_scale[['Age', 'Extent', 'N category', 'Hysterectomy', 'Surgery_PR', 'Chemotherapy', 'M category', 
                                              'Radiotherapy_RAI', 'Surgery_USO', 'Tumor size', 'Radiotherapy_EBRT', 'Grade', 'AJCC stage']]
 
-
+                ylabels = [
+                    str(Age) + ' years' + ' = ' + 'Age',
+                    str(Extent) + ' = ' + 'Extent', 
+                    str(N_category) + ' = ' + 'N category', 
+                    str(Hysterectomy) + ' = ' + 'Hysterectomy', 
+                    str(Surgery_PR) + ' = ' + 'Surgery_PR', 
+                    str(Chemotherapy) + ' = ' + 'Chemotherapy', 
+                    str(M_category) + ' = ' + 'M category', 
+                    str(Radiotherapy_RAI) + ' = ' + 'Radiotherapy_RAI', 
+                    str(Surgery_USO) + ' = ' + 'Surgery_USO', 
+                    str(Tumor_size) + ' mm' + ' = ' + 'Tumor size', 
+                    str(Radiotherapy_EBRT) + ' = ' + 'Radiotherapy_EBRT', 
+                    str(Grade) + ' = ' + 'Grade', 
+                    str(Stage) + ' = ' + 'AJCC stage'
+                ]
+                             
                 with col2:
                     explanation = explainer(X_test_final)
+
+
+
+                    combine_list = list(zip(
+                        explanation[0].feature_names,
+                        np.abs(explanation[0].values),
+                        ylabels))
+                    
+                    sorted_lists = sorted(combine_list, key = lambda x: x[1], reverse = False)
+                    sorted_ylabels = [item[2] for item in sorted_lists]
+                    sorted_ylabels
+
                     st.write('SHAP plot')
-                    st_shap(shap.plots.waterfall(explanation[0], max_display=18), width=1000, height=400)
+                    shap.plots.waterfall(explanation[0], max_display=18, show = False)
+                    ax_ = plt.gca()
+                    ax_.set_yticks(np.arange(0, 13, 1))
+                    ax_.set_yticklabels(sorted_ylabels)
+                    plot = ax_.get_figure()
+                    
+                    st_shap(plot, width=1000, height=400)
                     
                     ax = plot_personalized_predictions(rsf, X_test_final, times, best_cop)
                     fig = ax.get_figure()
